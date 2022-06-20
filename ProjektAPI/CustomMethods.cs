@@ -14,7 +14,9 @@ namespace ProjektAPI
                                              Id = P.Id,
                                              Imie = P.Imie,
                                              Nazwisko = P.Nazwisko,
-                                             NumerTelefonu = P.NumerTelefonu
+                                             NumerTelefonu = P.NumerTelefonu,
+                                             SpecjalizacjePracownikas = P.SpecjalizacjePracownikas,
+                                             Zlecenies = P.Zlecenies
                                          }).ToList();
                 return temp;
             }
@@ -103,7 +105,28 @@ namespace ProjektAPI
         {
             using (var ctx = new Models.projektContext())
             {
-                int id = ctx.Pracownicies.Max(x => x.Id);
+                int id = ctx.Pracownicies.Max(x => (int?)x.Id) ?? 0;
+                input.Id = id + 1;
+                try
+                {
+                    ctx.Add(input);
+                    ctx.SaveChanges();
+                    return "done";
+                }
+                catch(Exception e)
+                {
+                    return e.ToString();
+                }
+            }
+        }
+
+        /// /////////////////////////////////////
+
+        internal static string InsertSpec(Models.SpecjalizacjePracownika input)
+        {
+            using (var ctx = new Models.projektContext())
+            {
+                int id = ctx.SpecjalizacjePracownikas.Max(x => (int?)x.Id) ?? 0;
                 input.Id = id + 1;
                 try
                 {
@@ -140,7 +163,7 @@ namespace ProjektAPI
         {
             using (var ctx = new Models.projektContext())
             {
-                int id = ctx.Producents.Max(x => x.Id);
+                int id = ctx.Producents.Max(x => (int?)x.Id) ?? 0;
                 pr.Id = id + 1;
                 try
                 {
@@ -216,7 +239,7 @@ namespace ProjektAPI
         {
             using (var ctx = new Models.projektContext())
             {
-                int id = ctx.TypCzescis.Max(x => x.Id);
+                int id = ctx.TypCzescis.Max(x => (int?)x.Id) ?? 0;
                 tp.Id = id + 1;
                 try
                 {
@@ -292,7 +315,7 @@ namespace ProjektAPI
         {
             using (var ctx = new Models.projektContext())
             {
-                int id = ctx.ModelCzescis.Max(x => x.Id);
+                int id = ctx.ModelCzescis.Max(x => (int?)x.Id) ?? 0;
                 tp.Id = id + 1;
                 try
                 {
