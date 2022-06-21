@@ -63,7 +63,7 @@ namespace ProjektAPI
             {
                 try
                 {
-                    Pracownicy? P = ctx.Pracownicies.Where(x => x.Id == temp.Id).FirstOrDefault();
+                    Pracownicy? P = ctx.Pracownicies.Where(x => x.Id == temp.Id).First();
                     if (P == null)
                         return "No such person in DB";
                     P.Imie = temp.Imie;
@@ -87,7 +87,7 @@ namespace ProjektAPI
             {
                 try
                 {
-                    Pracownicy? P = ctx.Pracownicies.Where(x => x.Id == i).FirstOrDefault();
+                    Pracownicy? P = ctx.Pracownicies.Where(x => x.Id == i).First();
                     if (P == null)
                         return "No such person in DB";
                     ctx.Remove(P);
@@ -141,6 +141,49 @@ namespace ProjektAPI
             }
         }
 
+        internal static string ModifySpec(SpecjalizacjePracownika input)
+        {
+            using (var ctx = new projektContext())
+            {
+                try
+                {
+                    SpecjalizacjePracownika? P = ctx.SpecjalizacjePracownikas.Where(x => x.Id == input.Id).First();
+                    if (P == null)
+                        return "No such person in DB";
+                    P.NaprawaSoftu = input.NaprawaSoftu;
+                    P.NaprawaCzesci = input.NaprawaCzesci;
+                    P.Diagnostyka = input.Diagnostyka;
+                    P.Budowanie = input.Budowanie;
+                    ctx.SaveChanges();
+                    return "Done";
+                }
+                catch
+                {
+                    return "Error";
+                }
+            }
+        }
+
+        internal static string DeleteSpec(int i)
+        {
+            using (var ctx = new Models.projektContext())
+            {
+                try
+                {
+                    SpecjalizacjePracownika? P = ctx.SpecjalizacjePracownikas.Where(x => x.Id == i).First();
+                    if (P == null)
+                        return "No such person in DB";
+                    ctx.Remove(P);
+                    ctx.SaveChanges();
+                    return "Done";
+                }
+                catch
+                {
+                    return "Error";
+                }
+            }
+        }
+
         #endregion
         #region dictionaries
         // Producent methods
@@ -184,7 +227,7 @@ namespace ProjektAPI
             {
                 try
                 {
-                    Producent? P = ctx.Producents.Where(x => x.Id == prod.Id).FirstOrDefault();
+                    Producent? P = ctx.Producents.Where(x => x.Id == prod.Id).First();
                     if (P == null)
                         return "No such producent in DB";
                     P.Nazwa = prod.Nazwa;
@@ -205,7 +248,7 @@ namespace ProjektAPI
             {
                 try
                 {
-                    Producent? P = ctx.Producents.Where(x => x.Id == i).FirstOrDefault();
+                    Producent? P = ctx.Producents.Where(x => x.Id == i).First();
                     if (P == null)
                         return "No such person in DB";
                     ctx.Remove(P);
@@ -260,7 +303,7 @@ namespace ProjektAPI
             {
                 try
                 {
-                    TypCzesci? P = ctx.TypCzescis.Where(x => x.Id == i).FirstOrDefault();
+                    TypCzesci? P = ctx.TypCzescis.Where(x => x.Id == i).First();
                     if (P == null)
                         return "No such person in DB";
                     ctx.Remove(P);
@@ -280,7 +323,7 @@ namespace ProjektAPI
             {
                 try
                 {
-                    TypCzesci? P = ctx.TypCzescis.Where(x => x.Id == prod.Id).FirstOrDefault();
+                    TypCzesci? P = ctx.TypCzescis.Where(x => x.Id == prod.Id).First();
                     if (P == null)
                         return "No such producent in DB";
                     P.Typ = prod.Typ;
@@ -336,7 +379,7 @@ namespace ProjektAPI
             {
                 try
                 {
-                    ModelCzesci? P = ctx.ModelCzescis.Where(x => x.Id == prod.Id).FirstOrDefault();
+                    ModelCzesci? P = ctx.ModelCzescis.Where(x => x.Id == prod.Id).First();
                     if (P == null)
                         return "No such producent in DB";
                     P.Model = prod.Model;
@@ -357,7 +400,7 @@ namespace ProjektAPI
             {
                 try
                 {
-                    ModelCzesci? P = ctx.ModelCzescis.Where(x => x.Id == i).FirstOrDefault();
+                    ModelCzesci? P = ctx.ModelCzescis.Where(x => x.Id == i).First();
                     if (P == null)
                         return "No such person in DB";
                     ctx.Remove(P);

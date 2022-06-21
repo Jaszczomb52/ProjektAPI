@@ -162,5 +162,32 @@ namespace ProjektAPI.Controllers
         {
             return CustomMethods.GetWarehouse();
         }
+
+        [HttpPost("AddSpec")]
+        public string InsertSpec(Models.SpecjalizacjePracownika employee)
+        {
+            Models.SpecjalizacjePracownika? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = CustomMethods.InsertSpec(temp);
+            return check;
+        }
+
+        [HttpPut("UpdateSpec")]
+        public string UpdateSpec(Models.SpecjalizacjePracownika employee)
+        {
+            Models.SpecjalizacjePracownika? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = CustomMethods.ModifySpec(temp);
+            return check;
+        }
+
+        [HttpDelete("DeleteSpec/{i}")]
+        public string DeleteSpec(int i)
+        {
+            string check = CustomMethods.DeleteSpec(i);
+            return check;
+        }
     }
 }
