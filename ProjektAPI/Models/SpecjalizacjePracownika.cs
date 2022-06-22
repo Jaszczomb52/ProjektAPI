@@ -12,6 +12,6 @@ namespace ProjektAPI.Models
         public short Budowanie { get; set; }
         public int Idpracownika { get; set; }
 
-        public virtual Pracownicy IdpracownikaNavigation { get; set; } = null!;
+        public virtual Pracownicy? IdpracownikaNavigation { get; set; } = null;
     }
 }
