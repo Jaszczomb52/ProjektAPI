@@ -56,429 +56,6 @@ namespace ProjektAPI
             }
         }
 
-        #region eployees
-        internal static string UpdateEmployee(Pracownicy temp)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    Pracownicy? P = ctx.Pracownicies.Where(x => x.Id == temp.Id).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    P.Id = temp.Id;
-                    P.Imie = temp.Imie;
-                    P.Nazwisko = temp.Nazwisko;
-                    P.NumerTelefonu = temp.NumerTelefonu;
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        internal static string DeleteEmployee(int i)
-        {
-            using(var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    Pracownicy? P = ctx.Pracownicies.Where(x => x.Id == i).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    ctx.Remove(P);
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        internal static string InsertEmployee(Models.Pracownicy input)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                int id = ctx.Pracownicies.Max(x => (int?)x.Id) ?? 0;
-                input.Id = id + 1;
-                try
-                {
-                    ctx.Add(input);
-                    ctx.SaveChanges();
-                    return "done";
-                }
-                catch(Exception e)
-                {
-                    return e.ToString();
-                }
-            }
-        }
-
-        internal static string InsertSpec(Models.SpecjalizacjePracownika input)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                int id = ctx.SpecjalizacjePracownikas.Max(x => (int?)x.Id) ?? 0;
-                input.Id = id + 1;
-                try
-                {
-                    ctx.Add(input);
-                    ctx.SaveChanges();
-                    return "done";
-                }
-                catch(Exception e)
-                {
-                    return e.ToString();
-                }
-            }
-        }
-
-        internal static string ModifySpec(SpecjalizacjePracownika input)
-        {
-            using (var ctx = new projektContext())
-            {
-                try
-                {
-                    SpecjalizacjePracownika? P = ctx.SpecjalizacjePracownikas.Where(x => x.Id == input.Id).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    P.NaprawaSoftu = input.NaprawaSoftu;
-                    P.NaprawaCzesci = input.NaprawaCzesci;
-                    P.Diagnostyka = input.Diagnostyka;
-                    P.Budowanie = input.Budowanie;
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        internal static string DeleteSpec(int i)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    SpecjalizacjePracownika? P = ctx.SpecjalizacjePracownikas.Where(x => x.Id == i).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    ctx.Remove(P);
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        internal static string InsertCzesc(Models.CzescNaMagazynie input)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                int id = ctx.CzescNaMagazynies.Max(x => (int?)x.Id) ?? 0;
-                input.Id = id + 1;
-                try
-                {
-                    ctx.Add(input);
-                    ctx.SaveChanges();
-                    return "done";
-                }
-                catch (Exception e)
-                {
-                    return e.ToString();
-                }
-            }
-        }
-
-        internal static string ModifyCzesc(CzescNaMagazynie input)
-        {
-            using (var ctx = new projektContext())
-            {
-                try
-                {
-                    CzescNaMagazynie? P = ctx.CzescNaMagazynies.Where(x => x.Id == input.Id).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    P.KodSegmentu = input.KodSegmentu;
-                    P.Archiwum = input.Archiwum;
-                    P.Idtypu = input.Idtypu;
-                    P.Idmodelu = input.Idmodelu;
-                    P.CzescUzytaDoZlecenia = input.CzescUzytaDoZlecenia;
-                    P.IdtypuNavigation = input.IdtypuNavigation;
-                    P.IdmodeluNavigation = input.IdmodeluNavigation;
-                    P.Idproducenta = input.Idproducenta;
-                    P.IdproducentaNavigation = input.IdproducentaNavigation;
-                    P.Id = input.Id;
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        internal static string DeleteCzesc(int i)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    CzescNaMagazynie? P = ctx.CzescNaMagazynies.Where(x => x.Id == i).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    ctx.Remove(P);
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        #endregion
-        #region dictionaries
-        // Producent methods
-        internal static List<Producent> GetProducents()
-        {
-            using (Models.projektContext ctx = new Models.projektContext())
-            {
-                List<Models.Producent> temp = (from P in ctx.Producents
-                                                select new Models.Producent
-                                                {
-                                                    Id = P.Id,
-                                                    Nazwa = P.Nazwa,
-                                                    CzescNaMagazynies = P.CzescNaMagazynies
-                                                }).ToList();
-                return temp;
-            }
-        }
-
-        internal static string AddProducent(Producent pr)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                int id = ctx.Producents.Max(x => (int?)x.Id) ?? 0;
-                pr.Id = id + 1;
-                try
-                {
-                    ctx.Add(pr);
-                    ctx.SaveChanges();
-                    return "done";
-                }
-                catch (Exception e)
-                {
-                    return e.ToString();
-                }
-            }
-        }
-
-        internal static string ModifyProducent(Producent prod)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    Producent? P = ctx.Producents.Where(x => x.Id == prod.Id).First();
-                    if (P == null)
-                        return "No such producent in DB";
-                    P.Nazwa = prod.Nazwa;
-                    P.CzescNaMagazynies = prod.CzescNaMagazynies;
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        internal static string DeleteProducent(int i)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    Producent? P = ctx.Producents.Where(x => x.Id == i).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    ctx.Remove(P);
-                    ctx.SaveChanges();
-                    return "Done"; 
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        // Types methods
-        internal static List<TypCzesci> GetTypes()
-        {
-            using (Models.projektContext ctx = new Models.projektContext())
-            {
-                List<Models.TypCzesci> temp = (from P in ctx.TypCzescis
-                                               select new Models.TypCzesci
-                                               {
-                                                   Id = P.Id,
-                                                   Typ = P.Typ,
-                                                   CzescNaMagazynies = P.CzescNaMagazynies
-                                               }).ToList();
-                return temp;
-            }
-        }
-
-        internal static string AddType(TypCzesci tp)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                int id = ctx.TypCzescis.Max(x => (int?)x.Id) ?? 0;
-                tp.Id = id + 1;
-                try
-                {
-                    ctx.Add(tp);
-                    ctx.SaveChanges();
-                    return "done";
-                }
-                catch (Exception e)
-                {
-                    return e.ToString();
-                }
-            }
-        }
-
-        internal static string DeleteType(int i)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    TypCzesci? P = ctx.TypCzescis.Where(x => x.Id == i).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    ctx.Remove(P);
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        internal static string ModifyType(TypCzesci prod)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    TypCzesci? P = ctx.TypCzescis.Where(x => x.Id == prod.Id).First();
-                    if (P == null)
-                        return "No such producent in DB";
-                    P.Typ = prod.Typ;
-                    P.CzescNaMagazynies = prod.CzescNaMagazynies;
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        // Models methods
-        internal static List<ModelCzesci> GetModels()
-        {
-            using (Models.projektContext ctx = new Models.projektContext())
-            {
-                List<Models.ModelCzesci> temp = (from P in ctx.ModelCzescis
-                                               select new Models.ModelCzesci
-                                               {
-                                                   Id = P.Id,
-                                                   Model = P.Model,
-                                                   CzescNaMagazynies = P.CzescNaMagazynies
-                                               }).ToList();
-                return temp;
-            }
-        }
-
-        internal static string AddModel(ModelCzesci tp)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                int id = ctx.ModelCzescis.Max(x => (int?)x.Id) ?? 0;
-                tp.Id = id + 1;
-                try
-                {
-                    ctx.Add(tp);
-                    ctx.SaveChanges();
-                    return "done";
-                }
-                catch (Exception e)
-                {
-                    return e.ToString();
-                }
-            }
-        }
-
-        internal static string ModifyModel(ModelCzesci prod)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    ModelCzesci? P = ctx.ModelCzescis.Where(x => x.Id == prod.Id).First();
-                    if (P == null)
-                        return "No such producent in DB";
-                    P.Model = prod.Model;
-                    P.CzescNaMagazynies = prod.CzescNaMagazynies;
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-
-        internal static string DeleteModel(int i)
-        {
-            using (var ctx = new Models.projektContext())
-            {
-                try
-                {
-                    ModelCzesci? P = ctx.ModelCzescis.Where(x => x.Id == i).First();
-                    if (P == null)
-                        return "No such person in DB";
-                    ctx.Remove(P);
-                    ctx.SaveChanges();
-                    return "Done";
-                }
-                catch
-                {
-                    return "Error";
-                }
-            }
-        }
-        #endregion
         #region warehouse
         internal static List<CzescNaMagazynie> GetWarehouse()
         {
@@ -504,7 +81,254 @@ namespace ProjektAPI
         #endregion
     }
 
+    public class Methods<T>
+    {
+        internal static List<T> Get()
+        {
+            using (projektContext ctx = new projektContext())
+            {
+                try
+                {
+                    List<T>? P = default(List<T>);
+                    P = typeof(T).Name == "ModelCzesci" ? (from _ in ctx.ModelCzescis select new ModelCzesci()
+                                                           {
+                                                               Id = _.Id,
+                                                               Model = _.Model
+                                                           }).ToList() as List<T> : P;
 
+                    P = typeof(T).Name == "TypCzesci" ? (from _ in ctx.TypCzescis
+                                                           select new TypCzesci()
+                                                           {
+                                                               Id = _.Id,
+                                                               Typ = _.Typ
+                                                           }).ToList() as List<T> : P;
+
+                    P = typeof(T).Name == "CzescNaMagazynie" ? (from _ in ctx.CzescNaMagazynies
+                                                           select new CzescNaMagazynie()
+                                                           {
+                                                               Id = _.Id,
+                                                               Archiwum = _.Archiwum,
+                                                               CzescUzytaDoZlecenia = _.CzescUzytaDoZlecenia,
+                                                               Idmodelu = _.Idmodelu,
+                                                               Idproducenta = _.Idproducenta,
+                                                               Idtypu = _.Idtypu,
+                                                               KodSegmentu = _.KodSegmentu
+                                                           }).ToList() as List<T> : P;
+
+                    P = typeof(T).Name == "Pracownicy" ? (from _ in ctx.Pracownicies
+                                                           select new Pracownicy()
+                                                           {
+                                                               Id = _.Id,
+                                                               Imie = _.Imie,
+                                                               Nazwisko = _.Nazwisko,
+                                                               NumerTelefonu = _.NumerTelefonu
+                                                           }).ToList() as List<T> : P;
+
+                    P = typeof(T).Name == "Producent" ? (from _ in ctx.Producents
+                                                           select new Producent()
+                                                           {
+                                                               Id = _.Id,
+                                                               Nazwa = _.Nazwa
+                                                           }).ToList() as List<T> : P;
+
+                    P = typeof(T).Name == "SpecjalizacjePracownika" ? (from _ in ctx.SpecjalizacjePracownikas
+                                                           select new SpecjalizacjePracownika()
+                                                           {
+                                                               Id = _.Id,
+                                                               Idpracownika = _.Idpracownika,
+                                                               Budowanie = _.Budowanie,
+                                                               Diagnostyka = _.Diagnostyka,
+                                                               NaprawaCzesci = _.NaprawaCzesci,
+                                                               NaprawaSoftu = _.NaprawaSoftu
+                                                           }).ToList() as List<T> : P;
+
+                    P = typeof(T).Name == "Zlecenie" ? (from _ in ctx.Zlecenies
+                                                           select new Zlecenie()
+                                                           {
+                                                               Id = _.Id,
+                                                               Idpracownika = _.Idpracownika,
+                                                               Imie = _.Imie,
+                                                               Nazwisko = _.Nazwisko,
+                                                               DataPrzyjecia = _.DataPrzyjecia,
+                                                               DataWydania = _.DataWydania,
+                                                               Email = _.Email,
+                                                               KontaktTelefoniczny = _.KontaktTelefoniczny,
+                                                               Koszt = _.Koszt,
+                                                               NumerTelefonu = _.NumerTelefonu,
+                                                               OpisZlecenia = _.OpisZlecenia,
+                                                               Status = _.Status,
+                                                               SzybkieZlecenie = _.SzybkieZlecenie
+                                                           }).ToList() as List<T> : P;
+                    return P;
+                }
+                catch
+                {
+                    return default(List<T>);
+                }
+            }
+        }
+        
+        internal static string Delete(int i)
+        {
+            using (var ctx = new projektContext())
+            {
+                try
+                {
+                    T? P = default(T);
+                    P = typeof(T).Name == "ModelCzesci" ? (T)(object)ctx.ModelCzescis.First(_ => _.Id == i) : P;
+                    P = typeof(T).Name == "TypCzesci" ? (T)(object)ctx.TypCzescis.First(_ => _.Id == i) : P;
+                    P = typeof(T).Name == "CzescNaMagazynie" ? (T)(object)ctx.CzescNaMagazynies.First(_ => _.Id == i) : P;
+                    P = typeof(T).Name == "Pracownicy" ? (T)(object)ctx.Pracownicies.First(_ => _.Id == i) : P;
+                    P = typeof(T).Name == "Producent" ? (T)(object)ctx.Producents.First(_ => _.Id == i) : P;
+                    P = typeof(T).Name == "SpecjalizacjePracownika" ? (T)(object)ctx.SpecjalizacjePracownikas.First(_ => _.Id == i) : P;
+                    P = typeof(T).Name == "Zlecenie" ? (T)(object)ctx.Zlecenies.First(_ => _.Id == i) : P;
+                    if ( P is null)
+                        return typeof(T).ToString();
+                    ctx.Remove(P);
+                    ctx.SaveChanges();
+                    return "Done";
+                }
+                catch(Exception e)
+                {
+                    return "Error" + e;
+                }
+            }
+        }
+
+        internal static string Modify(T input)
+        {
+            try
+            {
+                using (var ctx = new projektContext())
+                {
+                    T? P = input;
+                    if (P is ModelCzesci)
+                    {
+                        if ((input as ModelCzesci) is null) return "null";
+                        ctx.ModelCzescis.Update(input as ModelCzesci);
+                        ctx.SaveChanges();
+                    }
+
+                    if (P is TypCzesci)
+                    {
+                        if ((input as TypCzesci) is null) return "null";
+                        ctx.TypCzescis.Update(input as TypCzesci);
+                        ctx.SaveChanges();
+                    }
+                    if (P is Pracownicy)
+                    {
+                        if ((input as Pracownicy) is null) return "null";
+                        ctx.Pracownicies.Update(input as Pracownicy);
+                        ctx.SaveChanges();
+                    }
+                    if (P is Producent)
+                    {
+                        if ((input as Producent) is null) return "null";
+                        ctx.Producents.Update(input as Producent);
+                        ctx.SaveChanges();
+                    }
+                    if (P is SpecjalizacjePracownika)
+                    {
+                        if ((input as SpecjalizacjePracownika) is null) return "null"; 
+                        ctx.SpecjalizacjePracownikas.Update(input as SpecjalizacjePracownika);
+                        ctx.SaveChanges();
+                    }
+                    if (P is Zlecenie)
+                    {
+                        if ((input as Zlecenie) is null) return "null";
+                        ctx.Zlecenies.Update(input as Zlecenie);
+                        ctx.SaveChanges();
+                    }
+                    if (P is null)
+                        return "Null";
+                    
+                    return "Done";
+                }
+            }
+            catch(Exception e)
+            {
+                return "Error" + e;
+            }
+        }
+
+        internal static string Add(T input)
+        {
+            try
+            {
+                using (var ctx = new projektContext())
+                {
+                    T? P = input;
+
+                    if (P is null)
+                        return "Null";
+
+                    if (P is ModelCzesci)
+                    {
+                        var temp = input as ModelCzesci;
+                        if (temp != null)
+                        {
+                            temp.Id = ctx.ModelCzescis.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            ctx.ModelCzescis.Add(temp);
+                        }
+                    }
+
+                    if (P is TypCzesci)
+                    {
+                        var temp = input as TypCzesci;
+                        if (temp != null)
+                        {
+                            temp.Id = ctx.TypCzescis.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            ctx.TypCzescis.Add(temp);
+                        }
+                    }
+                    if (P is Pracownicy)
+                    {
+                        var temp = input as Pracownicy;
+                        if (temp != null)
+                        {
+                            temp.Id = ctx.Pracownicies.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            ctx.Pracownicies.Add(temp);
+                        }
+                    }
+                    if (P is Producent)
+                    {
+                        var temp = input as Producent;
+                        if (temp != null)
+                        {
+                            temp.Id = ctx.Producents.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            ctx.Producents.Add(temp);
+                        }
+                    }
+                    if (P is SpecjalizacjePracownika)
+                    {
+                        var temp = input as SpecjalizacjePracownika;
+                        if (temp != null)
+                        {
+                            temp.Id = ctx.SpecjalizacjePracownikas.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            ctx.SpecjalizacjePracownikas.Add(temp);
+                        }
+                    }
+                    if (P is Zlecenie)
+                    {
+                        var temp = input as Zlecenie;
+                        if (temp != null)
+                        {
+                            temp.Id = ctx.Zlecenies.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            ctx.Zlecenies.Add(temp);
+                        }
+                    }
+                    
+                    ctx.SaveChanges();
+                    return "Done";
+                }
+            }
+            catch(Exception e)
+            {
+                return "Error" + e;
+            }
+        }
+
+    }
 
     // custom classes
     public class Zlecenia
