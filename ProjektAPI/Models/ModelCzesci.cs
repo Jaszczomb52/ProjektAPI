@@ -13,6 +13,6 @@ namespace ProjektAPI.Models
         public int Id { get; set; }
         public string Model { get; set; } = null!;
 
-        public virtual ICollection<CzescNaMagazynie> CzescNaMagazynies { get; set; }
+        public virtual ICollection<CzescNaMagazynie>? CzescNaMagazynies { get; set; }
     }
 }

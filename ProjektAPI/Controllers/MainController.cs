@@ -189,5 +189,32 @@ namespace ProjektAPI.Controllers
             string check = CustomMethods.DeleteSpec(i);
             return check;
         }
+
+        [HttpPost("AddCzesc")]
+        public string InsertCzesc(Models.CzescNaMagazynie employee)
+        {
+            Models.CzescNaMagazynie? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = CustomMethods.InsertCzesc(temp);
+            return check;
+        }
+
+        [HttpPut("UpdateCzesc")]
+        public string UpdateCzesc(Models.CzescNaMagazynie employee)
+        {
+            Models.CzescNaMagazynie? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = CustomMethods.ModifyCzesc(temp);
+            return check;
+        }
+
+        [HttpDelete("DeleteCzesc/{i}")]
+        public string DeleteCzesc(int i)
+        {
+            string check = CustomMethods.DeleteCzesc(i);
+            return check;
+        }
     }
 }

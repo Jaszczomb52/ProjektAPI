@@ -66,11 +66,10 @@ namespace ProjektAPI
                     Pracownicy? P = ctx.Pracownicies.Where(x => x.Id == temp.Id).First();
                     if (P == null)
                         return "No such person in DB";
+                    P.Id = temp.Id;
                     P.Imie = temp.Imie;
                     P.Nazwisko = temp.Nazwisko;
                     P.NumerTelefonu = temp.NumerTelefonu;
-                    P.Zlecenies = temp.Zlecenies;
-                    P.SpecjalizacjePracownikas = temp.SpecjalizacjePracownikas;
                     ctx.SaveChanges();
                     return "Done";
                 }
@@ -119,8 +118,6 @@ namespace ProjektAPI
                 }
             }
         }
-
-        /// /////////////////////////////////////
 
         internal static string InsertSpec(Models.SpecjalizacjePracownika input)
         {
@@ -171,6 +168,74 @@ namespace ProjektAPI
                 try
                 {
                     SpecjalizacjePracownika? P = ctx.SpecjalizacjePracownikas.Where(x => x.Id == i).First();
+                    if (P == null)
+                        return "No such person in DB";
+                    ctx.Remove(P);
+                    ctx.SaveChanges();
+                    return "Done";
+                }
+                catch
+                {
+                    return "Error";
+                }
+            }
+        }
+
+        internal static string InsertCzesc(Models.CzescNaMagazynie input)
+        {
+            using (var ctx = new Models.projektContext())
+            {
+                int id = ctx.CzescNaMagazynies.Max(x => (int?)x.Id) ?? 0;
+                input.Id = id + 1;
+                try
+                {
+                    ctx.Add(input);
+                    ctx.SaveChanges();
+                    return "done";
+                }
+                catch (Exception e)
+                {
+                    return e.ToString();
+                }
+            }
+        }
+
+        internal static string ModifyCzesc(CzescNaMagazynie input)
+        {
+            using (var ctx = new projektContext())
+            {
+                try
+                {
+                    CzescNaMagazynie? P = ctx.CzescNaMagazynies.Where(x => x.Id == input.Id).First();
+                    if (P == null)
+                        return "No such person in DB";
+                    P.KodSegmentu = input.KodSegmentu;
+                    P.Archiwum = input.Archiwum;
+                    P.Idtypu = input.Idtypu;
+                    P.Idmodelu = input.Idmodelu;
+                    P.CzescUzytaDoZlecenia = input.CzescUzytaDoZlecenia;
+                    P.IdtypuNavigation = input.IdtypuNavigation;
+                    P.IdmodeluNavigation = input.IdmodeluNavigation;
+                    P.Idproducenta = input.Idproducenta;
+                    P.IdproducentaNavigation = input.IdproducentaNavigation;
+                    P.Id = input.Id;
+                    ctx.SaveChanges();
+                    return "Done";
+                }
+                catch
+                {
+                    return "Error";
+                }
+            }
+        }
+
+        internal static string DeleteCzesc(int i)
+        {
+            using (var ctx = new Models.projektContext())
+            {
+                try
+                {
+                    CzescNaMagazynie? P = ctx.CzescNaMagazynies.Where(x => x.Id == i).First();
                     if (P == null)
                         return "No such person in DB";
                     ctx.Remove(P);

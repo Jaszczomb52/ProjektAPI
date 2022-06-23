@@ -16,7 +16,7 @@ namespace ProjektAPI.Models
         public string Nazwisko { get; set; } = null!;
         public string NumerTelefonu { get; set; } = null!;
 
-        public virtual ICollection<SpecjalizacjePracownika> SpecjalizacjePracownikas { get; set; }
-        public virtual ICollection<Zlecenie> Zlecenies { get; set; }
+        public virtual ICollection<SpecjalizacjePracownika>? SpecjalizacjePracownikas { get; set; }
+        public virtual ICollection<Zlecenie>? Zlecenies { get; set; }
     }
 }
