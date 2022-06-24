@@ -27,11 +27,10 @@ namespace ProjektAPI.Controllers
         [HttpPost("AddEmployee")]
         public string AddEmployee(Models.Pracownicy employee)
         {
-            //JsonConvert.DeserializeObject<Models.Pracownicy>(employee);
             Models.Pracownicy? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.InsertEmployee(temp);
+            string check = Methods<Models.Pracownicy>.Add(temp);
             return check;
         }
 
@@ -41,21 +40,21 @@ namespace ProjektAPI.Controllers
             Models.Pracownicy? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.UpdateEmployee(temp);
+            string check = Methods<Models.Pracownicy>.Modify(temp);
             return check;
         }
 
         [HttpDelete("DeleteEmployee/{i}")]
         public string DeleteEmployee(int i)
         {
-            string check = CustomMethods.DeleteEmployee(i);
+            string check = Methods<Models.Pracownicy>.Delete(i);
             return check;
         }
 
         [HttpGet("GetProducents")]
         public string GetProducents()
         {
-            List<Models.Producent> temp = CustomMethods.GetProducents();
+            List<Models.Producent> temp = Methods < Models.Producent>.Get();
             var result = JsonConvert.SerializeObject(temp);
             return result;
         }
@@ -66,7 +65,7 @@ namespace ProjektAPI.Controllers
             Models.Producent? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.AddProducent(temp);
+            string check = Methods<Models.Producent>.Add(temp);
             return check;
         }
 
@@ -76,21 +75,21 @@ namespace ProjektAPI.Controllers
             Models.Producent? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.ModifyProducent(temp);
+            string check = Methods<Models.Producent>.Modify(temp);
             return check;
         }
 
         [HttpDelete("DeleteProducent/{i}")]
         public string DeleteProducent(int i)
         {
-            string check = CustomMethods.DeleteProducent(i);
+            string check = Methods<Models.Producent>.Delete(i);
             return check;
         }
 
         [HttpGet("GetTypes")]
         public string GetTypes()
         {
-            List<Models.TypCzesci> temp = CustomMethods.GetTypes();
+            List<Models.TypCzesci> temp = Methods<Models.TypCzesci>.Get();
             var result = JsonConvert.SerializeObject(temp);
             return result;
         }
@@ -101,7 +100,7 @@ namespace ProjektAPI.Controllers
             Models.TypCzesci? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.AddType(temp);
+            string check = Methods<Models.TypCzesci>.Add(temp);
             return check;
         }
 
@@ -111,21 +110,21 @@ namespace ProjektAPI.Controllers
             Models.TypCzesci? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.ModifyType(temp);
+            string check = Methods<Models.TypCzesci>.Modify(temp);
             return check;
         }
 
         [HttpDelete("DeleteType/{i}")]
         public string DeleteType(int i)
         {
-            string check = CustomMethods.DeleteType(i);
+            string check = Methods<Models.TypCzesci>.Delete(i);
             return check;
         }
 
         [HttpGet("GetModels")]
         public string GetModels()
         {
-            List<Models.ModelCzesci> temp = CustomMethods.GetModels();
+            List<Models.ModelCzesci> temp = Methods<Models.ModelCzesci>.Get();
             var result = JsonConvert.SerializeObject(temp);
             return result;
         }
@@ -136,7 +135,7 @@ namespace ProjektAPI.Controllers
             Models.ModelCzesci? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.AddModel(temp);
+            string check = Methods<Models.ModelCzesci>.Add(temp);
             return check;
         }
 
@@ -146,14 +145,14 @@ namespace ProjektAPI.Controllers
             Models.ModelCzesci? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.ModifyModel(temp);
+            string check = Methods<Models.ModelCzesci>.Modify(temp);
             return check;
         }
 
         [HttpDelete("DeleteModel/{i}")]
         public string DeleteModel(int i)
         {
-            string check = CustomMethods.DeleteModel(i);
+            string check = Methods<Models.ModelCzesci>.Delete(i);
             return check;
         }
 
@@ -169,7 +168,7 @@ namespace ProjektAPI.Controllers
             Models.SpecjalizacjePracownika? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.InsertSpec(temp);
+            string check = Methods<Models.SpecjalizacjePracownika>.Add(temp);
             return check;
         }
 
@@ -179,14 +178,41 @@ namespace ProjektAPI.Controllers
             Models.SpecjalizacjePracownika? temp = employee;
             if (temp == null)
                 return "Null";
-            string check = CustomMethods.ModifySpec(temp);
+            string check = Methods<Models.SpecjalizacjePracownika>.Modify(temp);
             return check;
         }
 
         [HttpDelete("DeleteSpec/{i}")]
         public string DeleteSpec(int i)
         {
-            string check = CustomMethods.DeleteSpec(i);
+            string check = Methods<Models.SpecjalizacjePracownika>.Delete(i);
+            return check;
+        }
+
+        [HttpPost("AddCzesc")]
+        public string InsertCzesc(Models.CzescNaMagazynie employee)
+        {
+            Models.CzescNaMagazynie? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = Methods<Models.CzescNaMagazynie>.Add(temp);
+            return check;
+        }
+
+        [HttpPut("UpdateCzesc")]
+        public string UpdateCzesc(Models.CzescNaMagazynie employee)
+        {
+            Models.CzescNaMagazynie? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = Methods<Models.CzescNaMagazynie>.Modify(temp);
+            return check;
+        }
+
+        [HttpDelete("DeleteCzesc/{i}")]
+        public string DeleteCzesc(int i)
+        {
+            string check = Methods<Models.CzescNaMagazynie>.Delete(i);
             return check;
         }
     }

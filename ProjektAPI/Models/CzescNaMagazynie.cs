@@ -17,9 +17,9 @@ namespace ProjektAPI.Models
         public int Idmodelu { get; set; }
         public bool Archiwum { get; set; }
 
-        public virtual ModelCzesci IdmodeluNavigation { get; set; } = null!;
-        public virtual Producent IdproducentaNavigation { get; set; } = null!;
-        public virtual TypCzesci IdtypuNavigation { get; set; } = null!;
-        public virtual ICollection<CzescUzytaDoZlecenium> CzescUzytaDoZlecenia { get; set; }
+        public virtual ModelCzesci? IdmodeluNavigation { get; set; } = null!;
+        public virtual Producent? IdproducentaNavigation { get; set; } = null!;
+        public virtual TypCzesci? IdtypuNavigation { get; set; } = null!;
+        public virtual ICollection<CzescUzytaDoZlecenium>? CzescUzytaDoZlecenia { get; set; }
     }
 }
