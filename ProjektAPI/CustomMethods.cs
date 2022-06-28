@@ -239,6 +239,12 @@ namespace ProjektAPI
                         ctx.Zlecenies.Update(input as Zlecenie);
                         ctx.SaveChanges();
                     }
+                    if (P is CzescNaMagazynie)
+                    {
+                        if ((input as CzescNaMagazynie) is null) return "null";
+                        ctx.CzescNaMagazynies.Update(input as CzescNaMagazynie);
+                        ctx.SaveChanges();
+                    }
                     if (P is null)
                         return "Null";
                     
@@ -315,6 +321,15 @@ namespace ProjektAPI
                         {
                             temp.Id = ctx.Zlecenies.Max(_ => (int?)_.Id) + 1 ?? 0;
                             ctx.Zlecenies.Add(temp);
+                        }
+                    }
+                    if(P is CzescNaMagazynie)
+                    {
+                        var temp = input as CzescNaMagazynie;
+                        if (temp != null)
+                        {
+                            temp.Id = ctx.CzescNaMagazynies.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            ctx.CzescNaMagazynies.Add(temp);
                         }
                     }
                     
