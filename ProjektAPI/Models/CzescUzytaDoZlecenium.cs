@@ -10,7 +10,7 @@ namespace ProjektAPI.Models
         public int Idzlecenia { get; set; }
         public int Idczesci { get; set; }
 
-        public virtual CzescNaMagazynie IdczesciNavigation { get; set; } = null!;
-        public virtual Zlecenie IdzleceniaNavigation { get; set; } = null!;
+        public virtual CzescNaMagazynie? IdczesciNavigation { get; set; } = null!;
+        public virtual Zlecenie? IdzleceniaNavigation { get; set; } = null!;
     }
 }
