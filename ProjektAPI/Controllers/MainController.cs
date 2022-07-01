@@ -215,5 +215,74 @@ namespace ProjektAPI.Controllers
             string check = Methods<Models.CzescNaMagazynie>.Delete(i);
             return check;
         }
+
+
+        [HttpGet("GetReq")]
+        public string GetReq()
+        {
+            List<Models.Zlecenie> temp = Methods<Models.Zlecenie>.Get();
+            var result = JsonConvert.SerializeObject(temp);
+            return result;
+        }
+
+        [HttpPost("AddReq")]
+        public string InsertReq(Models.Zlecenie employee)
+        {
+            Models.Zlecenie? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = Methods<Models.Zlecenie>.Add(temp);
+            return check;
+        }
+        [HttpPut("UpdateReq")]
+        public string UpdateReq(Models.Zlecenie employee)
+        {
+            Models.Zlecenie? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = Methods<Models.Zlecenie>.Modify(temp);
+            return check;
+        }
+
+        [HttpDelete("DeleteReq/{i}")]
+        public string DeleteReq(int i)
+        {
+            string check = Methods<Models.Zlecenie>.Delete(i);
+            return check;
+        }
+
+        [HttpGet("GetZlecCz")]
+        public string GetZlecCz()
+        {
+            List<Models.CzescUzytaDoZlecenium> temp = Methods<Models.CzescUzytaDoZlecenium>.Get();
+            var result = JsonConvert.SerializeObject(temp);
+            return result;
+        }
+
+        [HttpPost("AddZlecCz")]
+        public string InsertZlecCz(Models.CzescUzytaDoZlecenium employee)
+        {
+            Models.CzescUzytaDoZlecenium? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = Methods<Models.CzescUzytaDoZlecenium>.Add(temp);
+            return check;
+        }
+        [HttpPut("UpdateZlecCz")]
+        public string UpdateZlecCz(Models.CzescUzytaDoZlecenium employee)
+        {
+            Models.CzescUzytaDoZlecenium? temp = employee;
+            if (temp == null)
+                return "Null";
+            string check = Methods<Models.CzescUzytaDoZlecenium>.Modify(temp);
+            return check;
+        }
+
+        [HttpDelete("DeleteZlecCz/{i}")]
+        public string DeleteZlecCz(int i)
+        {
+            string check = Methods<Models.CzescUzytaDoZlecenium>.Delete(i);
+            return check;
+        }
     }
 }

@@ -90,7 +90,8 @@ namespace ProjektAPI
                 try
                 {
                     List<T>? P = default(List<T>);
-                    P = typeof(T).Name == "ModelCzesci" ? (from _ in ctx.ModelCzescis select new ModelCzesci()
+                    P = typeof(T).Name == "ModelCzesci" ? (from _ in ctx.ModelCzescis 
+                                                           select new ModelCzesci()
                                                            {
                                                                Id = _.Id,
                                                                Model = _.Model
@@ -112,7 +113,10 @@ namespace ProjektAPI
                                                                Idmodelu = _.Idmodelu,
                                                                Idproducenta = _.Idproducenta,
                                                                Idtypu = _.Idtypu,
-                                                               KodSegmentu = _.KodSegmentu
+                                                               KodSegmentu = _.KodSegmentu,
+                                                               IdmodeluNavigation = _.IdmodeluNavigation,
+                                                               IdproducentaNavigation = _.IdproducentaNavigation,
+                                                               IdtypuNavigation = _.IdtypuNavigation
                                                            }).ToList() as List<T> : P;
 
                     P = typeof(T).Name == "Pracownicy" ? (from _ in ctx.Pracownicies
@@ -159,6 +163,16 @@ namespace ProjektAPI
                                                                Status = _.Status,
                                                                SzybkieZlecenie = _.SzybkieZlecenie
                                                            }).ToList() as List<T> : P;
+                    P = typeof(T).Name == "CzescUzytaDoZlecenium" ? (from _ in ctx.CzescUzytaDoZlecenia
+                                                                     select new CzescUzytaDoZlecenium()
+                                                                     {
+                                                                         Id = _.Id,
+                                                                         Idczesci = _.Idczesci,
+                                                                         Idzlecenia = _.Idzlecenia,
+                                                                         DataWpisu = _.DataWpisu,
+                                                                         IdczesciNavigation = _.IdczesciNavigation,
+                                                                         IdzleceniaNavigation = _.IdzleceniaNavigation
+                                                                     }).ToList() as List<T> : P;
                     return P;
                 }
                 catch
@@ -182,6 +196,7 @@ namespace ProjektAPI
                     P = typeof(T).Name == "Producent" ? (T)(object)ctx.Producents.First(_ => _.Id == i) : P;
                     P = typeof(T).Name == "SpecjalizacjePracownika" ? (T)(object)ctx.SpecjalizacjePracownikas.First(_ => _.Id == i) : P;
                     P = typeof(T).Name == "Zlecenie" ? (T)(object)ctx.Zlecenies.First(_ => _.Id == i) : P;
+                    P = typeof(T).Name == "CzescUzytaDoZlecenium" ? (T)(object)ctx.CzescUzytaDoZlecenia.First(_ => _.Id == i) : P;
                     if ( P is null)
                         return typeof(T).ToString();
                     ctx.Remove(P);
@@ -205,48 +220,47 @@ namespace ProjektAPI
                     if (P is ModelCzesci)
                     {
                         if ((input as ModelCzesci) is null) return "null";
-                        ctx.ModelCzescis.Update(input as ModelCzesci);
-                        ctx.SaveChanges();
+                        ctx.ModelCzescis.Update((input as ModelCzesci)!);
                     }
-
-                    if (P is TypCzesci)
+                    else if (P is TypCzesci)
                     {
                         if ((input as TypCzesci) is null) return "null";
-                        ctx.TypCzescis.Update(input as TypCzesci);
-                        ctx.SaveChanges();
+                        ctx.TypCzescis.Update((input as TypCzesci)!);
                     }
-                    if (P is Pracownicy)
+                    else if (P is Pracownicy)
                     {
                         if ((input as Pracownicy) is null) return "null";
                         ctx.Pracownicies.Update(input as Pracownicy);
-                        ctx.SaveChanges();
                     }
-                    if (P is Producent)
+                    else if (P is Producent)
                     {
                         if ((input as Producent) is null) return "null";
                         ctx.Producents.Update(input as Producent);
-                        ctx.SaveChanges();
                     }
-                    if (P is SpecjalizacjePracownika)
+                    else if (P is SpecjalizacjePracownika)
                     {
                         if ((input as SpecjalizacjePracownika) is null) return "null"; 
                         ctx.SpecjalizacjePracownikas.Update(input as SpecjalizacjePracownika);
-                        ctx.SaveChanges();
                     }
-                    if (P is Zlecenie)
+                    else if (P is Zlecenie)
                     {
                         if ((input as Zlecenie) is null) return "null";
                         ctx.Zlecenies.Update(input as Zlecenie);
-                        ctx.SaveChanges();
                     }
-                    if (P is CzescNaMagazynie)
+                    else if (P is CzescNaMagazynie)
                     {
                         if ((input as CzescNaMagazynie) is null) return "null";
                         ctx.CzescNaMagazynies.Update(input as CzescNaMagazynie);
-                        ctx.SaveChanges();
                     }
-                    if (P is null)
+                    else if (P is CzescUzytaDoZlecenium)
+                    {
+                        if ((input as CzescUzytaDoZlecenium) is null) return "null";
+                        ctx.CzescUzytaDoZlecenia.Update(input as CzescUzytaDoZlecenium);
+                    }
+                    else if (P is null)
                         return "Null";
+
+                    ctx.SaveChanges();
                     
                     return "Done";
                 }
@@ -273,63 +287,72 @@ namespace ProjektAPI
                         var temp = input as ModelCzesci;
                         if (temp != null)
                         {
-                            temp.Id = ctx.ModelCzescis.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            temp.Id = (ctx.ModelCzescis.Max(_ => (int?)_.Id)?? 0) + 1;
                             ctx.ModelCzescis.Add(temp);
                         }
                     }
 
-                    if (P is TypCzesci)
+                    else if (P is TypCzesci)
                     {
                         var temp = input as TypCzesci;
                         if (temp != null)
                         {
-                            temp.Id = ctx.TypCzescis.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            temp.Id = (ctx.TypCzescis.Max(_ => (int?)_.Id)?? 0) + 1;
                             ctx.TypCzescis.Add(temp);
                         }
                     }
-                    if (P is Pracownicy)
+                    else if (P is Pracownicy)
                     {
                         var temp = input as Pracownicy;
                         if (temp != null)
                         {
-                            temp.Id = ctx.Pracownicies.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            temp.Id = (ctx.Pracownicies.Max(_ => (int?)_.Id) ?? 0) + 1;
                             ctx.Pracownicies.Add(temp);
                         }
                     }
-                    if (P is Producent)
+                    else if (P is Producent)
                     {
                         var temp = input as Producent;
                         if (temp != null)
                         {
-                            temp.Id = ctx.Producents.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            temp.Id = (ctx.Producents.Max(_ => (int?)_.Id) ?? 0) + 1;
                             ctx.Producents.Add(temp);
                         }
                     }
-                    if (P is SpecjalizacjePracownika)
+                    else if (P is SpecjalizacjePracownika)
                     {
                         var temp = input as SpecjalizacjePracownika;
                         if (temp != null)
                         {
-                            temp.Id = ctx.SpecjalizacjePracownikas.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            temp.Id = (ctx.SpecjalizacjePracownikas.Max(_ => (int?)_.Id) ?? 0) + 1;
                             ctx.SpecjalizacjePracownikas.Add(temp);
                         }
                     }
-                    if (P is Zlecenie)
+                    else if (P is Zlecenie)
                     {
                         var temp = input as Zlecenie;
                         if (temp != null)
                         {
-                            temp.Id = ctx.Zlecenies.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            temp.Id = (ctx.Zlecenies.Max(_ => (int?)_.Id) ?? 0) + 1;
                             ctx.Zlecenies.Add(temp);
                         }
                     }
-                    if(P is CzescNaMagazynie)
+                    else if (P is CzescNaMagazynie)
                     {
                         var temp = input as CzescNaMagazynie;
                         if (temp != null)
                         {
-                            temp.Id = ctx.CzescNaMagazynies.Max(_ => (int?)_.Id) + 1 ?? 0;
+                            temp.Id = (ctx.CzescNaMagazynies.Max(_ => (int?)_.Id) ?? 0) +1;
                             ctx.CzescNaMagazynies.Add(temp);
+                        }
+                    }
+                    else if (P is CzescUzytaDoZlecenium)
+                    {
+                        var temp = input as CzescUzytaDoZlecenium;
+                        if (temp != null)
+                        {
+                            temp.Id = ctx.CzescUzytaDoZlecenia.Max(_ => (int?)_.Id ?? 0) + 1;
+                            ctx.CzescUzytaDoZlecenia.Add(temp);
                         }
                     }
                     

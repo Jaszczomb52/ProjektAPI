@@ -24,7 +24,7 @@ namespace ProjektAPI.Models
         public string OpisZlecenia { get; set; } = null!;
         public int Idpracownika { get; set; }
 
-        public virtual Pracownicy IdpracownikaNavigation { get; set; } = null!;
-        public virtual ICollection<CzescUzytaDoZlecenium> CzescUzytaDoZlecenia { get; set; }
+        public virtual Pracownicy? IdpracownikaNavigation { get; set; } = null!;
+        public virtual ICollection<CzescUzytaDoZlecenium>? CzescUzytaDoZlecenia { get; set; }
     }
 }
