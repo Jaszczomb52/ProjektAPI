@@ -351,7 +351,7 @@ namespace ProjektAPI
                         var temp = input as CzescUzytaDoZlecenium;
                         if (temp != null)
                         {
-                            temp.Id = ctx.CzescUzytaDoZlecenia.Max(_ => (int?)_.Id ?? 0) + 1;
+                            temp.Id = (ctx.CzescUzytaDoZlecenia.Max(_ => (int?)_.Id) ?? 0) + 1;
                             ctx.CzescUzytaDoZlecenia.Add(temp);
                         }
                     }
